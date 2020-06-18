@@ -39,10 +39,23 @@ export default class MainPage extends Component {
 
   render(){
     console.log(this.state);
+    const { currentlyReading, wantToRead, read } = this.state;
+
     return(
       <main className="main-page">
         <h1 className="main-page__header">MyReads</h1>
-        <BookShelf />
+        <BookShelf 
+          title="Currently Reading"
+          bookList={ currentlyReading }
+        />
+        <BookShelf 
+          title="Want To Read"
+          bookList={ wantToRead }
+        />
+        <BookShelf 
+          title="Read"
+          bookList={ read }
+        />
       </main>
     );
   }
