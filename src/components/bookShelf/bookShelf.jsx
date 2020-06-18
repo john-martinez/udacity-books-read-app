@@ -5,11 +5,12 @@ import './bookShelf.scss';
 export default function BookShelf({
   title, 
   bookList,
+  moveShelf,
 }){
 
   const renderBooks = () => {
     const books = [];
-    bookList.forEach(book=> books.push(<Book key={book.id} book={book} />))
+    bookList.forEach(book=> books.push(<Book key={book.id} book={book} moveShelf={moveShelf} />))
     return books;
   }
 

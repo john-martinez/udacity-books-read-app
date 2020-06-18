@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import BookShelf from '../../components/bookShelf/bookShelf';
 import FloatingButton from '../../components/floatingButton/floatingButton';
-import { getAll } from '../../BooksAPI';
+import { getAll, update } from '../../BooksAPI';
 import './mainPage.scss';
 
 export default class MainPage extends Component {
@@ -34,13 +34,20 @@ export default class MainPage extends Component {
         })
       })
   }
+
+  moveShelf = (book, target) => {
+    update(book, target)
+      .then(_=>this.initializeState())
+      .catch(err=>console.log(err))
+  }
+
   componentDidMount(){
     this.initializeState();
   }
 
   render(){
-    console.log(this.state);
     const { currentlyReading, wantToRead, read } = this.state;
+    const { moveShelf } = this;
 
     return(
       <main className="main-page">
@@ -48,14 +55,17 @@ export default class MainPage extends Component {
         <BookShelf 
           title="Currently Reading"
           bookList={ currentlyReading }
+          moveShelf={ moveShelf }
         />
         <BookShelf 
           title="Want To Read"
           bookList={ wantToRead }
+          moveShelf={ moveShelf }
         />
         <BookShelf 
           title="Read"
           bookList={ read }
+          moveShelf={ moveShelf }
         />
         <FloatingButton />
       </main>
