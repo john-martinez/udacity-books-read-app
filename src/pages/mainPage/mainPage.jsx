@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import BookShelf from '../../components/bookShelf/bookShelf';
+import FloatingButton from '../../components/floatingButton/floatingButton';
 import { getAll } from '../../BooksAPI';
 import './mainPage.scss';
 
@@ -56,6 +57,7 @@ export default class MainPage extends Component {
           title="Read"
           bookList={ read }
         />
+        <FloatingButton />
       </main>
     );
   }
