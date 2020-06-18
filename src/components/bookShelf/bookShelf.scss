@@ -1,0 +1,8 @@
+.book-shelf {
+  padding: 0 10px 20px;
+  &__title {
+    font-size: 1.5rem;
+    border-bottom: 1px solid #dedede;
+    padding-bottom: 10px;
+  }
+}
