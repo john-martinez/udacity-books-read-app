@@ -1,0 +1,11 @@
+.search-bar {
+
+  &__input {
+    display: block; 
+    flex-grow: 1;
+    padding: 15px 10px;
+    font-size: 1.25em;
+    border: none;
+    outline: none;
+  }
+}

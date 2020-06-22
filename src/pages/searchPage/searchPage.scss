@@ -1,0 +1,19 @@
+.search-page {
+  
+  &__header {
+    display: flex;
+    width: 100%;
+    box-shadow: 1px 0 25px rgba(0,0,0,0.12);
+    border: 1px solid lightgray;
+  }
+
+  &__image {
+    width: 50px;
+    border: none;
+    outline: none;
+    > img {
+      width: 25px;
+    }
+  }
+
+}
