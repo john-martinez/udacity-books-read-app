@@ -1,8 +1,9 @@
 .search-bar {
+  flex-grow: 1;
 
   &__input {
     display: block; 
-    flex-grow: 1;
+    width: 100%;
     padding: 15px 10px;
     font-size: 1.25em;
     border: none;
