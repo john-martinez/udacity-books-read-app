@@ -6,7 +6,7 @@ export default function Book({
   book,
   moveShelf,
 }){
-  const { title, subtitle, imageLinks, authors } = book;
+  const { title, subtitle, imageLinks, authors, shelf } = book;
   
   const onClickHandler = (target) => {
     moveShelf(book, target);
@@ -15,11 +15,11 @@ export default function Book({
     <div className="book">
       <div className="book__image">
         <img src={ imageLinks.thumbnail } alt={ subtitle } />
-        <DropDown handler={ onClickHandler }/>
+        <DropDown handler={ onClickHandler } shelf={ shelf }/>
       </div>
       <div className="book__copy">
         <div className="book__title">{ title }</div>
-        <div className="book__author">{ authors[0] }</div>
+        <div className="book__author">{ authors }</div>
       </div>
     </div>
   );

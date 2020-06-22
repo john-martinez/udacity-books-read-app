@@ -8,9 +8,13 @@ export default class DropDown extends Component {
 
   toggleMenu = () => this.setState({ isShowing: !this.state.isShowing})
 
+  retrieveClassName = (target) => {
+    return this.props.shelf === target ? 'drop-drown__item--active' : '';
+  }
   render(){
     const { isShowing } = this.state;
-    const { handler } = this.props;
+    const { handler, shelf } = this.props;
+    const { retrieveClassName } = this;
 
     return(
       <div className="drop-down" tabIndex={0} onClick={this.toggleMenu}>
@@ -18,11 +22,9 @@ export default class DropDown extends Component {
         {isShowing && (
           <ul className="drop-down__menu" >
             <li tabIndex={0}>Move to...</li>
-            <li tabIndex={0} onClick={ ()=>handler('currentlyReading') }>Currently Reading</li>
-            <li tabIndex={0} onClick={ ()=>handler('wantToRead') }>Want to Read</li>
-            <li tabIndex={0} onClick={ ()=>handler('read') }>Read</li>
-            {/* removing none option as the API doesnt support it */}
-            {/* <li tabIndex={0} onClick={ ()=>handler('remove') }>None</li> */}
+            <li className={ retrieveClassName('currentlyReading') } tabIndex={0} onClick={ ()=>handler('currentlyReading') }>Currently Reading</li>
+            <li className={ retrieveClassName('wantToRead') } tabIndex={0} onClick={ ()=>handler('wantToRead') }>Want to Read</li>
+            <li className={ retrieveClassName('read') } tabIndex={0} onClick={ ()=>handler('read') }>Read</li>
           </ul>
         )}
       </div>

@@ -14,15 +14,15 @@ export default class MainPage extends Component {
   initializeState = () => {
     getAll()
       .then(books=>{
-        const currentlyReading = new Map();
-        const wantToRead = new Map();
-        const read = new Map();
+        const currentlyReading = [];
+        const wantToRead = [];
+        const read = [];
         
         books.forEach(book=>{
           switch(book.shelf){
-            case 'read': read.set(book.id, book); break;
-            case 'wantToRead': wantToRead.set(book.id, book); break;
-            case 'currentlyReading': currentlyReading.set(book.id, book); break;
+            case 'read': read.push(book); break;
+            case 'wantToRead': wantToRead.push(book); break;
+            case 'currentlyReading': currentlyReading.push(book); break;
             default: console.log('invalid');
           }
         })

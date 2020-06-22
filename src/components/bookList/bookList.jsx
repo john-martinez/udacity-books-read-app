@@ -15,7 +15,7 @@ export default function bookList({
 
   return(
     <div className="book-list">
-      { bookList && bookList.size && renderBooks() }
+      { bookList && bookList.length ? renderBooks() : null }
     </div>
   );
 }
