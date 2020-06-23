@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import BookList from '../../components/bookList/bookList';
 import { Link } from 'react-router-dom';
-import { search, getall, getAll } from '../../BooksAPI';
+import { search, update, getAll } from '../../BooksAPI';
 import SearchBar from '../../components/searchBar/searchBar';
 import arrowBack from '../../assets/icons/arrow-back.svg';
 
@@ -35,7 +35,6 @@ export default class SearchPage extends Component {
               })
     
               const arrayFromMap = Object.values(Object.fromEntries(dataMap))
-              console.log(arrayFromMap)
               this.setState({ bookList: arrayFromMap })
             } else {
               this.setState({ bookList: null })
@@ -64,6 +63,20 @@ export default class SearchPage extends Component {
     return dataMap;
   }
 
+  moveShelf = (book, target) => {
+    update(book, target)
+      .then(_=>{
+        const bookListCopy = this.state.bookList;
+        const dataArray = this.convertArrayToMap(bookListCopy)
+        const bookData = dataArray.get(book.id);
+        bookData.shelf = target;
+        dataArray.set(book.id, bookData);
+        const arrayFromMap = Object.values(Object.fromEntries(dataArray));
+        this.setState({ bookList: arrayFromMap })
+      })
+      .catch(err=>console.log(err))
+  }
+
   render(){
     const { searchInput, bookList } = this.state;
 
@@ -80,7 +93,7 @@ export default class SearchPage extends Component {
         </div>
         <div className="search-page__results">
           { bookList !== null 
-            ? bookList.length ? <BookList bookList={ bookList } /> : null 
+            ? bookList.length ? <BookList bookList={ bookList } moveShelf={ this.moveShelf } /> : null 
             : <h2>No results found...</h2>}
         </div>
       </main>
