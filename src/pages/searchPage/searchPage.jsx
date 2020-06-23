@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import BookList from '../../components/bookList/bookList';
 import { Link } from 'react-router-dom';
-import { search } from '../../BooksAPI';
+import { search, getall, getAll } from '../../BooksAPI';
 import SearchBar from '../../components/searchBar/searchBar';
 import arrowBack from '../../assets/icons/arrow-back.svg';
 
@@ -11,6 +11,7 @@ export default class SearchPage extends Component {
   state = {
     searchInput: '',
     bookList: [],
+    myList: [],
   }
 
   onChangeHandler = (e) => {
@@ -18,20 +19,39 @@ export default class SearchPage extends Component {
 
     if (searchInput.length){
       search(searchInput)
-        .then(res=>{
-          const data = Array.isArray(res) ? res : []
-          this.setState({ 
-            bookList: data,
+        .then(data=>{
+          const { myList } = this.state;
+          const dataMap = this.convertArrayToMap(data);
+
+          myList.forEach(book => {
+            if(dataMap.has(book.id)) {
+              dataMap.set(book.id, book)
+            }
           })
+
+          const arrayFromMap = Object.values(Object.fromEntries(dataMap))
+          console.log(arrayFromMap)
+          this.setState({ bookList: arrayFromMap })
         })
         .catch(err=>console.log(err))
+    } else {
+      this.setState({ bookList: [] })
     }
-
     this.setState({ searchInput })
   } 
 
-  componentDidUpdate(){
-    console.log(this.state)
+  componentDidMount(){
+    getAll().then(data=>{
+      this.setState({ myList: data })
+    })
+  }
+
+  convertArrayToMap = (arr) => {
+    const dataMap = new Map();
+    arr.forEach(book=>{
+      dataMap.set(book.id, book)
+    })
+    return dataMap;
   }
 
   render(){

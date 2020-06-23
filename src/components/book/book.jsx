@@ -1,5 +1,6 @@
 import React from 'react';
 import DropDown from '../dropDown/dropDown';
+import defaultBook from '../../assets/images/defaultbook.jpg';
 import './book.scss';
 
 export default function Book({
@@ -14,7 +15,7 @@ export default function Book({
   return(
     <div className="book">
       <div className="book__image">
-        <img src={ imageLinks.thumbnail } alt={ subtitle } />
+        <img src={ imageLinks ? imageLinks.thumbnail : defaultBook } alt={ subtitle } />
         <DropDown handler={ onClickHandler } shelf={ shelf }/>
       </div>
       <div className="book__copy">
