@@ -14,29 +14,39 @@ export default class SearchPage extends Component {
     myList: [],
   }
 
+  timerId = 0;
+
   onChangeHandler = (e) => {
     const searchInput = e.target.value;
 
-    if (searchInput.length){
-      search(searchInput)
-        .then(data=>{
-          const { myList } = this.state;
-          const dataMap = this.convertArrayToMap(data);
-
-          myList.forEach(book => {
-            if(dataMap.has(book.id)) {
-              dataMap.set(book.id, book)
-            }
+    clearTimeout(this.timerId);
+    this.timerId = setTimeout(()=>{
+      if (searchInput.length){
+        search(searchInput)
+          .then(data=>{
+            if (data.length){
+              const { myList } = this.state;
+              const dataMap = this.convertArrayToMap(data);
+  
+              myList.forEach(book => {
+                if(dataMap.has(book.id)) {
+                  dataMap.set(book.id, book)
+                }
+              })
+    
+              const arrayFromMap = Object.values(Object.fromEntries(dataMap))
+              console.log(arrayFromMap)
+              this.setState({ bookList: arrayFromMap })
+            } else {
+              this.setState({ bookList: null })
+            } 
           })
-
-          const arrayFromMap = Object.values(Object.fromEntries(dataMap))
-          console.log(arrayFromMap)
-          this.setState({ bookList: arrayFromMap })
-        })
-        .catch(err=>console.log(err))
-    } else {
-      this.setState({ bookList: [] })
-    }
+          .catch(err=>console.log(err))
+      } else {
+        this.setState({ bookList: [] })
+      }
+    },500)
+    
     this.setState({ searchInput })
   } 
 
@@ -69,7 +79,9 @@ export default class SearchPage extends Component {
           />
         </div>
         <div className="search-page__results">
-          { bookList.length ? <BookList bookList={ bookList } /> : null }
+          { bookList !== null 
+            ? bookList.length ? <BookList bookList={ bookList } /> : null 
+            : <h2>No results found...</h2>}
         </div>
       </main>
     );
